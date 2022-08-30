@@ -1,46 +1,30 @@
-import { Controller, Get, Header, HttpCode, Param, Post, Query, Redirect, Req } from '@nestjs/common';
-import { Request } from "express";
+import { Controller, Get, Query, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { CreateCatDto, UpdateCatDto, ListAllEntities } from './dto';
 
 @Controller('cats')
 export class CatsController {
-    @Post()
-    @HttpCode(204)
-    @Header('Cache-Control', 'none')
-    create(): string {
-        return 'Add a new cat'
-    }
+  @Post()
+  create(@Body() createCatDto: CreateCatDto) {
+    return 'This action adds a new cat';
+  }
 
+  @Get()
+  findAll(@Query() query: ListAllEntities) {
+    return `This action returns all cats (limit: ${query.limit} items)`;
+  }
 
-    @Get()
-    findAll(@Req() request: Request): string{
-        return 'Return all cats'
-    }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return `This action returns a #${id} cat`;
+  }
 
-    @Get('/redirect')
-    @Redirect('https://docs.nestjs.com', 302)
-    getDocs(@Query('version') version) {
-        switch (version) {
-            case '5':
-                return {
-                    "url": 'https://docs.nestjs.com/v5/',
-                    "statusCode": 301
-                }    
-                break;
-            case '6':
-                return {
-                    "url": 'https://docs.nestjs.com/v6/',
-                    "statusCode": 301
-                }
-        }    
-    }
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+    return `This action updates a #${id} cat`;
+  }
 
-    @Get(':id')
-    findOne(@Param() params): string {
-        return `Returns param id ${params.id}`
-    }
-
-    @Get('ById/:id')
-    findById(@Param('id') id: string): string{
-        return `This action return the id ${id}`
-    }
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return `This action removes a #${id} cat`;
+  }
 }
