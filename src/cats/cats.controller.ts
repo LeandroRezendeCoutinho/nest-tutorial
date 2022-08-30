@@ -38,4 +38,9 @@ export class CatsController {
     findOne(@Param() params): string {
         return `Returns param id ${params.id}`
     }
+
+    @Get('ById/:id')
+    findById(@Param('id') id: string): string{
+        return `This action return the id ${id}`
+    }
 }
