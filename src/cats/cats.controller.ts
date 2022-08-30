@@ -1,4 +1,4 @@
-import { Controller, Get, Header, HttpCode, Post, Req } from '@nestjs/common';
+import { Controller, Get, Header, HttpCode, Post, Query, Redirect, Req } from '@nestjs/common';
 import { Request } from "express";
 
 @Controller('cats')
@@ -14,5 +14,23 @@ export class CatsController {
     @Get()
     findAll(@Req() request: Request): string{
         return 'Return all cats'
+    }
+
+    @Get('/redirect')
+    @Redirect('https://docs.nestjs.com', 302)
+    getDocs(@Query('version') version) {
+        switch (version) {
+            case '5':
+                return {
+                    "url": 'https://docs.nestjs.com/v5/',
+                    "statusCode": 301
+                }    
+                break;
+            case '6':
+                return {
+                    "url": 'https://docs.nestjs.com/v6/',
+                    "statusCode": 301
+                }
+        }    
     }
 }
