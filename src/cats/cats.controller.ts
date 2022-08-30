@@ -1,4 +1,4 @@
-import { Controller, Get, Header, HttpCode, Post, Query, Redirect, Req } from '@nestjs/common';
+import { Controller, Get, Header, HttpCode, Param, Post, Query, Redirect, Req } from '@nestjs/common';
 import { Request } from "express";
 
 @Controller('cats')
@@ -32,5 +32,10 @@ export class CatsController {
                     "statusCode": 301
                 }
         }    
+    }
+
+    @Get(':id')
+    findOne(@Param() params): string {
+        return `Returns param id ${params.id}`
     }
 }
