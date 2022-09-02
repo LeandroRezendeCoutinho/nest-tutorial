@@ -7,7 +7,7 @@ import {
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { logger } from './middlewares/logger.middleware';
 
 @Module({
   imports: [CatsModule],
@@ -17,7 +17,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(LoggerMiddleware)
+      .apply(logger)
       .forRoutes({ path: 'cats', method: RequestMethod.GET });
   }
 }
