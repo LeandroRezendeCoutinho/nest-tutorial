@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ForbiddenException } from '@nestjs/common';
+import { CatNotFoundException } from 'src/exceptions/cat-not-found.exception';
 import { CatsService } from './cats.service';
 import { CreateCatDto, UpdateCatDto, ListAllEntities } from './dto';
 import { Cat } from './interfaces/cat.interface';
@@ -14,7 +15,12 @@ export class CatsController {
 
   @Get()
   async findAll(): Promise<Cat[]> {
-    return this.catsService.findAll()
+    let cats = this.catsService.findAll()
+    if (JSON.stringify(cats) === JSON.stringify([])) {
+      throw new CatNotFoundException();
+    }
+    
+    return cats
   }
 
   @Get(':id')
