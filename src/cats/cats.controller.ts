@@ -10,7 +10,7 @@ export class CatsController {
   constructor(private catsService: CatsService) { }
 
   @Post()
-  @UseFilters(new HttpExceptionFilter())
+  @UseFilters(HttpExceptionFilter)
   async create(@Body() createCatDto: CreateCatDto) {
     return this.catsService.create(createCatDto)
   }
