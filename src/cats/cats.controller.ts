@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters } from '@nestjs/common'
 import { CatNotFoundException } from 'src/exceptions/cat-not-found.exception'
+import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
 import { CatsService } from './cats.service'
 import { CreateCatDto, UpdateCatDto } from './dto'
 import { Cat } from './interfaces/cat.interface'
@@ -9,6 +10,7 @@ export class CatsController {
   constructor(private catsService: CatsService) { }
 
   @Post()
+  @UseFilters(new HttpExceptionFilter())
   async create(@Body() createCatDto: CreateCatDto) {
     return this.catsService.create(createCatDto)
   }
