@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { HttpException, HttpStatus } from "@nestjs/common"
 
 export class CatNotFoundException extends HttpException {
     constructor() {
