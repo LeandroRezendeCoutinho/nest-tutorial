@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, ParseIntPipe } from '@nestjs/common'
+import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, ParseIntPipe, HttpStatus } from '@nestjs/common'
 import { CatNotFoundException } from '../exceptions/cat-not-found.exception'
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter'
 import { CatsService } from './cats.service'
@@ -26,7 +26,9 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(
+    @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
+    id: number) {
     return `This action returns a #${id} cat`
   }
 
