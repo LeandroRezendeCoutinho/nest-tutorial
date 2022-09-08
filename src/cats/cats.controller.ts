@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters } from '@nestjs/common'
-import { CatNotFoundException } from 'src/exceptions/cat-not-found.exception'
-import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter'
+import { CatNotFoundException } from '../exceptions/cat-not-found.exception'
+import { HttpExceptionFilter } from '../exceptions/http-exception.filter'
 import { CatsService } from './cats.service'
 import { CreateCatDto, UpdateCatDto } from './dto'
 import { Cat } from './interfaces/cat.interface'
