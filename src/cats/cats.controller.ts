@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, ParseIntPipe, HttpStatus } from '@nestjs/common'
+import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, ParseIntPipe, HttpStatus, UsePipes } from '@nestjs/common'
+import { JoiValidationPipe } from 'src/validations/joi-validation.pipe'
+import { createCatSchema } from 'src/validations/schemas/create-cat.schema'
 import { CatNotFoundException } from '../exceptions/cat-not-found.exception'
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter'
 import { CatsService } from './cats.service'
@@ -11,7 +13,8 @@ export class CatsController {
 
   @Post()
   @UseFilters(HttpExceptionFilter)
-  async create(@Body() createCatDto: CreateCatDto) {
+  @UsePipes(new JoiValidationPipe(createCatSchema))
+  async create(@Body() createCatDto: CreateCatDto): Promise<void> {
     return this.catsService.create(createCatDto)
   }
 
