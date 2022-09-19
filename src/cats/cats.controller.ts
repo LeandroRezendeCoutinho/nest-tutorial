@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, HttpStatus, UsePipes } from '@nestjs/common'
+import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, HttpStatus, UsePipes, Query, DefaultValuePipe, ParseBoolPipe } from '@nestjs/common'
 import { JoiValidationPipe } from 'src/validations/joi-validation.pipe'
 import { CatSchema as CatSchema } from '../validations/schemas/cat.schema'
 import { ValidationPipe } from 'src/validations/validation.pipe'
@@ -21,7 +21,10 @@ export class CatsController {
   }
 
   @Get()
-  async findAll(): Promise<Cat[]> {
+  async findAll(
+    @Query('activeOnly', new DefaultValuePipe(false), ParseBoolPipe) activeOnly: boolean,
+    @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number,
+  ): Promise<Cat[]> {
     const cats = this.catsService.findAll()
     if (JSON.stringify(cats) === JSON.stringify([])) {
       throw new CatNotFoundException()
