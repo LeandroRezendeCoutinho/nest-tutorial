@@ -1,6 +1,6 @@
-import Joi from "joi"
+import * as Joi from "joi"
 
-export const createCatSchema = Joi.object({
+export const CatSchema = Joi.object({
     name: Joi.string(),
     age: Joi.number().integer(),
     breed: Joi.string()

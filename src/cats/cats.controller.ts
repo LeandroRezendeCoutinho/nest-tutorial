@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, ParseIntPipe, HttpStatus, UsePipes } from '@nestjs/common'
 import { JoiValidationPipe } from 'src/validations/joi-validation.pipe'
-import { createCatSchema } from 'src/validations/schemas/create-cat.schema'
+import { CatSchema as CatSchema } from '../validations/schemas/cat.schema'
+import { ValidationPipe } from 'src/validations/validation.pipe'
 import { CatNotFoundException } from '../exceptions/cat-not-found.exception'
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter'
 import { CatsService } from './cats.service'
@@ -13,7 +14,7 @@ export class CatsController {
 
   @Post()
   @UseFilters(HttpExceptionFilter)
-  @UsePipes(new JoiValidationPipe(createCatSchema))
+  @UsePipes(new JoiValidationPipe(CatSchema))
   async create(@Body() createCatDto: CreateCatDto): Promise<void> {
     return this.catsService.create(createCatDto)
   }
@@ -29,19 +30,19 @@ export class CatsController {
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }))
     id: number) {
     return `This action returns a #${id} cat`
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+  async update(@Param('id') id: string, @Body(new ValidationPipe()) updateCatDto: UpdateCatDto) {
     return `This action updates a #${id} cat`
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return `This action removes a #${id} cat`
   }
 }
