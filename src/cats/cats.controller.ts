@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, HttpStatus, UsePipes, Query, DefaultValuePipe, ParseBoolPipe } from '@nestjs/common'
+import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, HttpStatus, UsePipes, Query, DefaultValuePipe, ParseBoolPipe, UseGuards } from '@nestjs/common'
 import { JoiValidationPipe } from 'src/validations/joi-validation.pipe'
 import { CatSchema as CatSchema } from '../validations/schemas/cat.schema'
 import { ValidationPipe } from 'src/validations/validation.pipe'
@@ -8,8 +8,10 @@ import { CatsService } from './cats.service'
 import { CreateCatDto, UpdateCatDto } from './dto'
 import { Cat } from './interfaces/cat.interface'
 import { ParseIntPipe } from 'src/pipes/parse-int.pipe'
+import { AuthGuard } from 'src/guards/auth.guard'
 
 @Controller('cats')
+@UseGuards(AuthGuard)
 export class CatsController {
   constructor(private catsService: CatsService) { }
 
