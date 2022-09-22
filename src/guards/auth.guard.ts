@@ -1,5 +1,5 @@
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
-import { Observable } from "rxjs";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common"
+import { Observable } from "rxjs"
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -8,7 +8,7 @@ export class AuthGuard implements CanActivate {
         return this.validateRequest(request)
     }
     
-    private validateRequest(request: any): boolean | Promise<boolean> | Observable<boolean> {
+    private validateRequest(_request: any): boolean | Promise<boolean> | Observable<boolean> {
         return true
     }    
 }

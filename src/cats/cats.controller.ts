@@ -1,14 +1,16 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, HttpStatus, UsePipes, Query, DefaultValuePipe, ParseBoolPipe, UseGuards } from '@nestjs/common'
-import { JoiValidationPipe } from 'src/validations/joi-validation.pipe'
-import { CatSchema as CatSchema } from '../validations/schemas/cat.schema'
-import { ValidationPipe } from 'src/validations/validation.pipe'
+import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, UsePipes, Query, DefaultValuePipe, ParseBoolPipe, UseGuards } from '@nestjs/common'
+import { JoiValidationPipe } from '../validations/joi-validation.pipe'
+import { CatSchema } from '../validations/schemas/cat.schema'
+import { ValidationPipe } from '../validations/validation.pipe'
 import { CatNotFoundException } from '../exceptions/cat-not-found.exception'
 import { HttpExceptionFilter } from '../exceptions/http-exception.filter'
 import { CatsService } from './cats.service'
 import { CreateCatDto, UpdateCatDto } from './dto'
 import { Cat } from './interfaces/cat.interface'
-import { ParseIntPipe } from 'src/pipes/parse-int.pipe'
-import { AuthGuard } from 'src/guards/auth.guard'
+import { ParseIntPipe } from '../pipes/parse-int.pipe'
+import { AuthGuard } from '../guards/auth.guard'
+import { Roles } from '../decorators/roles.decorator'
+import { RolesGuard } from '../guards/roles.guard'
 
 @Controller('cats')
 @UseGuards(AuthGuard)
@@ -18,6 +20,8 @@ export class CatsController {
   @Post()
   @UseFilters(HttpExceptionFilter)
   @UsePipes(new JoiValidationPipe(CatSchema))
+  @Roles('admin')
+  @UseGuards(RolesGuard)
   async create(@Body() createCatDto: CreateCatDto): Promise<void> {
     return this.catsService.create(createCatDto)
   }
