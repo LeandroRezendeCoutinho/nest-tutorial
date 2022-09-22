@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, UsePipes, Query, DefaultValuePipe, ParseBoolPipe, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Body, Put, Param, Delete, UseFilters, UsePipes, Query, DefaultValuePipe, ParseBoolPipe, UseGuards, UseInterceptors } from '@nestjs/common'
 import { JoiValidationPipe } from '../validations/joi-validation.pipe'
 import { CatSchema } from '../validations/schemas/cat.schema'
 import { ValidationPipe } from '../validations/validation.pipe'
@@ -11,9 +11,11 @@ import { ParseIntPipe } from '../pipes/parse-int.pipe'
 import { AuthGuard } from '../guards/auth.guard'
 import { Roles } from '../decorators/roles.decorator'
 import { RolesGuard } from '../guards/roles.guard'
+import { LoggingInterceptor } from '../interceptors/logging.interceptor'
 
 @Controller('cats')
 @UseGuards(AuthGuard)
+@UseInterceptors(LoggingInterceptor)
 export class CatsController {
   constructor(private catsService: CatsService) { }
 
@@ -23,6 +25,11 @@ export class CatsController {
   @Roles('admin')
   @UseGuards(RolesGuard)
   async create(@Body() createCatDto: CreateCatDto): Promise<void> {
+    return this.catsService.create(createCatDto)
+  }
+
+  @Post('createbypass')
+  async createBypass(@Body() createCatDto: CreateCatDto): Promise<void> {
     return this.catsService.create(createCatDto)
   }
 
