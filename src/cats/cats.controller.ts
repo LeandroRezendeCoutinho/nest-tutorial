@@ -11,11 +11,10 @@ import { ParseIntPipe } from '../pipes/parse-int.pipe'
 import { AuthGuard } from '../guards/auth.guard'
 import { Roles } from '../decorators/roles.decorator'
 import { RolesGuard } from '../guards/roles.guard'
-import { LoggingInterceptor } from '../interceptors/logging.interceptor'
 
 @Controller('cats')
 @UseGuards(AuthGuard)
-@UseInterceptors(LoggingInterceptor)
+// @UseInterceptors(LoggingInterceptor)
 export class CatsController {
   constructor(private catsService: CatsService) { }
 
@@ -39,16 +38,18 @@ export class CatsController {
     @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number,
   ): Promise<Cat[]> {
     const cats = this.catsService.findAll()
-    if (JSON.stringify(cats) === JSON.stringify([])) {
-      throw new CatNotFoundException()
-    }
 
     return cats
   }
 
   @Get(':id')
   async findOne(@Param('id', new ParseIntPipe()) id: number) {
-    return `This action returns a #${id} cat`
+    const cat = this.catsService.find(id)
+    if (cat === undefined) {
+      throw new CatNotFoundException()
+    }
+
+    return cat
   }
 
   @Put(':id')
