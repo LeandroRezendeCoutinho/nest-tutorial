@@ -11,6 +11,8 @@ import { ParseIntPipe } from '../pipes/parse-int.pipe'
 import { AuthGuard } from '../guards/auth.guard'
 import { Roles } from '../decorators/roles.decorator'
 import { RolesGuard } from '../guards/roles.guard'
+import { User } from '../decorators/user.decorator'
+import { UserEntity } from '../Entities/user.entity'
 
 @Controller('cats')
 @UseGuards(AuthGuard)
@@ -60,5 +62,10 @@ export class CatsController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return `This action removes a #${id} cat`
+  }
+
+  @Get()
+  async findUser(@User() user: UserEntity) {
+    console.log(user)    
   }
 }

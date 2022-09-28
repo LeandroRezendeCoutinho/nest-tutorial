@@ -10,9 +10,16 @@ import { AppService } from './app.service'
 import { CatsModule } from './cats/cats.module'
 import { logger } from './middlewares/logger.middleware'
 import { ValidationPipe } from './validations/validation.pipe'
+import { TypeOrmModule } from "@nestjs/typeorm"
 
 @Module({
-  imports: [CatsModule],
+  imports: [CatsModule,
+  TypeOrmModule.forRoot({
+    type :"sqlite",
+    database: "tutorial.db",
+    entities: [__dirname + "/**/*.entity{.ts,.js}"],
+    synchronize: true
+  })],
   controllers: [AppController],
   providers: [
     AppService,
