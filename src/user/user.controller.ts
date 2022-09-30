@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserDecorator } from '../decorators/user.decorator'
 import { RolesGuard } from '../guards/roles.guard'
+import { Auth } from '../decorators/auth.decorator'
 
 @Controller('users')
 @UseGuards(RolesGuard)
@@ -21,22 +22,28 @@ export class UserController {
   }
 
   @Get('byname')
-  findUser(@UserDecorator('firstName') firstName: string) {
+  async findUser(@UserDecorator('firstName') firstName: string) {
     return this.userService.findOneByFirstName(firstName)
   }
   
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.userService.findOneById(+id)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto)
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.userService.remove(+id)
+  }
+
+  @Get('users')
+  @Auth('admin')
+  async findAllUsers() {
+    return await this.userService.findAll()
   }
 }
