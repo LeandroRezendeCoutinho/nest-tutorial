@@ -3,7 +3,6 @@ import { UserService } from './user.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UserDecorator } from '../decorators/user.decorator'
-import { User } from './entities/user.entity'
 import { RolesGuard } from '../guards/roles.guard'
 
 @Controller('users')
@@ -22,8 +21,8 @@ export class UserController {
   }
 
   @Get('byname')
-  findUser(@UserDecorator() user: User) {
-    return this.userService.findOneByFirstName(user.firstName)
+  findUser(@UserDecorator('firstName') firstName: string) {
+    return this.userService.findOneByFirstName(firstName)
   }
   
   @Get(':id')
