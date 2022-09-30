@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common'
+import { CreateCatDto } from './dto'
 import { Cat } from './interfaces/cat.interface'
 
 @Injectable()
-export class CatsService {  
+export class CatsService {
   private readonly cats: Cat[] = []
 
-  create(cat: Cat) {
-    this.cats.push(cat)
+  create(cat: CreateCatDto) {
+    const newCat = new Cat()
+    Object.assign(newCat, cat)
+    this.cats.push(newCat)
   }
 
   findAll(): Cat[] {
@@ -14,6 +17,6 @@ export class CatsService {
   }
 
   find(id: number): Cat {
-    return this.cats.find(x => x.id === id) 
+    return this.cats.find(x => x.id === id)
   }
 }

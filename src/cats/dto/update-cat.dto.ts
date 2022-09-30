@@ -1,12 +1,8 @@
-import { IsString, IsInt } from 'class-validator'
+import { PartialType } from '@nestjs/mapped-types'
+import { IsInt } from 'class-validator'
+import { CreateCatDto } from './create-cat.dto'
 
-export class UpdateCatDto {
-    @IsString()
-    name: string
-
+export class UpdateCatDto extends PartialType(CreateCatDto){
     @IsInt()
-    age: number
-
-    @IsString()
-    breed: string
+    id: number
 }

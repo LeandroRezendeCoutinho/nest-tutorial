@@ -9,25 +9,23 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { CatsModule } from './cats/cats.module'
 import { logger } from './middlewares/logger.middleware'
-import { ValidationPipe } from './validations/validation.pipe'
 import { TypeOrmModule } from "@nestjs/typeorm"
+import { UserModule } from './user/user.module'
 
 @Module({
-  imports: [CatsModule,
-  TypeOrmModule.forRoot({
-    type :"sqlite",
-    database: "tutorial.db",
-    entities: [__dirname + "/**/*.entity{.ts,.js}"],
-    synchronize: true
-  })],
+  imports: [
+    CatsModule,
+    UserModule,
+    TypeOrmModule.forRoot({
+      type: "sqlite",
+      database: "tutorial.db",
+      entities: [__dirname + "/**/*.entity{.ts,.js}"],
+      synchronize: true
+    })],
   controllers: [AppController],
   providers: [
-    AppService,
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe
-    }
-  ],
+    AppService
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
