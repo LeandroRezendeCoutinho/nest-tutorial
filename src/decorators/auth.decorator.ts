@@ -12,10 +12,12 @@ export function Auth(...roles: Role[]) {
 }
 
 function ApiBearerAuth(): ClassDecorator | MethodDecorator | PropertyDecorator {
-    throw new Error('Function not implemented.')
+    return (...args) => { return args}
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ApiUnauthorizedResponse(arg0: { description: string }): ClassDecorator | MethodDecorator | PropertyDecorator {
-    throw new Error('Function not implemented.')
+    return (...args) => { return args}
 }
 
 class Role {    
