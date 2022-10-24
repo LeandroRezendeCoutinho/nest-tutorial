@@ -10,21 +10,22 @@ import { CatsModule } from './cats/cats.module'
 import { logger } from './middlewares/logger.middleware'
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { UserModule } from './user/user.module'
+import { ConfigModule } from './config/config.module'
 
 @Module({
   imports: [
-    CatsModule,
-    UserModule,
     TypeOrmModule.forRoot({
       type: "sqlite",
       database: "tutorial.db",
       entities: [__dirname + "/**/*.entity{.ts,.js}"],
       synchronize: true
-    })],
+    }),
+    CatsModule,
+    UserModule,
+
+    ConfigModule.register({ folder: './config' })],
   controllers: [AppController],
-  providers: [
-    AppService
-  ]
+  providers: [AppService]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
