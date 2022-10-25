@@ -1,6 +1,6 @@
 import { Injectable, Module } from "@nestjs/common"
-import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from './config/config.module';
+import { AuthModule } from './auth/auth.module'
+import { ConfigModule } from './config/config.module'
 
 @Injectable()
 class LoggerService {

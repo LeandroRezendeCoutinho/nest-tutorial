@@ -23,7 +23,7 @@ import { ConfigModule } from './config/config.module'
     CatsModule,
     UserModule,
 
-    ConfigModule.register({ folder: './config' })],
+    ConfigModule.forRoot({ folder: './config' })],
   controllers: [AppController],
   providers: [AppService]
 })
