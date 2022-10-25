@@ -11,6 +11,7 @@ import { logger } from './middlewares/logger.middleware'
 import { TypeOrmModule } from "@nestjs/typeorm"
 import { UserModule } from './user/user.module'
 import { ConfigModule } from './config/config.module'
+import { ConfigModuleOptionsFactory } from './config/config.module.options-factory'
 
 @Module({
   imports: [
@@ -23,7 +24,9 @@ import { ConfigModule } from './config/config.module'
     CatsModule,
     UserModule,
 
-    ConfigModule.forRoot({ folder: './config' })],
+    ConfigModule.registerAsync({
+      useClass: ConfigModuleOptionsFactory,
+    })],
   controllers: [AppController],
   providers: [AppService]
 })
