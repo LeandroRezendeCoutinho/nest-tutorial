@@ -1,9 +1,10 @@
-import { NestFactory } from '@nestjs/core'
+import { ContextIdFactory, NestFactory } from '@nestjs/core'
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
 import { AppModule } from './app.module'
+import { AggregateByTenantContextIdStrategy } from './common/aggregate-by-tenant-contextId.strategy'
 
 // import cluster from 'node:cluster'
 // import { cpus } from 'os'
@@ -29,6 +30,7 @@ import { AppModule } from './app.module'
       AppModule,
       new FastifyAdapter()
     )
+    ContextIdFactory.apply(new AggregateByTenantContextIdStrategy())
     await app.listen(3000)
   }
   bootstrap()
