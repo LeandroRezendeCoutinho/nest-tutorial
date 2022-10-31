@@ -1,10 +1,15 @@
-import { Injectable, Scope } from '@nestjs/common'
+import { forwardRef, Inject, Injectable, Scope } from '@nestjs/common'
+import { CommonService } from '../common/common.service'
 import { CreateCatDto } from './dto'
 import { Cat } from './interfaces/cat.interface'
 
-@Injectable({scope: Scope.REQUEST, durable: true})
+@Injectable({ scope: Scope.REQUEST, durable: true })
 export class CatsService {
   private readonly cats: Cat[] = []
+
+  constructor(
+    @Inject(forwardRef(() => CommonService)) private commonService: CommonService
+  ) { }
 
   create(cat: CreateCatDto) {
     const newCat = new Cat()
