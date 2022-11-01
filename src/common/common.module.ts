@@ -1,4 +1,5 @@
-import { Module } from "@nestjs/common"
+import { forwardRef, Module } from "@nestjs/common"
+import { CatsModule } from "../cats/cats.module"
 import { ConfigService } from "../config/config.service"
 import { DevelopmentConfigService } from "../config/development-config.service"
 import { ProductionConfigService } from "../config/production-config.service"
@@ -12,6 +13,7 @@ const configServiceProvider = {
 }
 
 @Module({
+    imports: [forwardRef(() => CatsModule )],
     providers: [configServiceProvider]
 })
   
