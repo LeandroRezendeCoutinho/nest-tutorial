@@ -16,4 +16,4 @@ const loggerAliasProvider = {
     providers: [LoggerService, loggerAliasProvider],
     imports: [AuthModule, ConfigModule],
 })
-export class AppModule {}
+export class AliasProviderModule { }
