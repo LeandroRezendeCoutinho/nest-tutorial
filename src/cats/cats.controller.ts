@@ -11,15 +11,16 @@ import { ParseIntPipe } from '../pipes/parse-int.pipe'
 import { AuthGuard } from '../guards/auth.guard'
 import { Roles } from '../decorators/roles.decorator'
 
+@Roles('user')
 @Controller('cats')
 @UseGuards(AuthGuard)
 export class CatsController {
   constructor(private catsService: CatsService) { }
 
   @Post()
+  @Roles('admin')
   @UseFilters(HttpExceptionFilter)
   @UsePipes(new JoiValidationPipe(CatSchema))
-  @Roles('admin')
   async create(@Body() createCatDto: CreateCatDto): Promise<void> {
     return this.catsService.create(createCatDto)
   }
