@@ -1,18 +1,24 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CatsController } from './cats.controller';
+import { Test, TestingModule } from '@nestjs/testing'
+import { CommonService } from '../common/common.service'
+import { CatsController } from './cats.controller'
+import { CatsService } from './cats.service'
+import { Cat } from './interfaces/cat.interface'
 
 describe('CatsController', () => {
-  let controller: CatsController;
+  let catsController: CatsController
+  let catsService: CatsService
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [CatsController],
-    }).compile();
+    catsService = new CatsService(new CommonService(catsService))
+    catsController = new CatsController(catsService)
+  })
 
-    controller = module.get<CatsController>(CatsController);
-  });
+  describe('findAll', () => {
+    it('should return an array of cats', async () => {
+      const result = [new Cat()]
+      jest.spyOn(catsService, 'findAll').mockImplementation(() => result)
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-});
+      expect(await catsController.findAll(false, 0)).toBe(result)
+    })
+  })
+})
