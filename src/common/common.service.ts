@@ -1,6 +1,7 @@
-import { forwardRef, Inject } from "@nestjs/common"
+import { forwardRef, Inject, Injectable } from "@nestjs/common"
 import { CatsService } from "../cats/cats.service"
 
+@Injectable()
 export class CommonService {
     constructor(
         @Inject(forwardRef(() => CatsService))
