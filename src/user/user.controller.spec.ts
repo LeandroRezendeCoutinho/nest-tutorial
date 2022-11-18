@@ -1,4 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
+import { getRepositoryToken } from '@nestjs/typeorm'
+import { User } from './entities/user.entity'
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
 
@@ -8,7 +10,15 @@ describe('UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService],
+      providers: [
+        UserService,
+        {
+          provide: getRepositoryToken(User),
+          useValue: {
+            find: jest.fn().mockResolvedValue({})
+          }
+        }
+      ],
     }).compile()
 
     controller = module.get<UserController>(UserController)
