@@ -1,6 +1,7 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
 import { User } from "../../user/entities/user.entity"
 
+@Entity()
 export class Photo {
     @PrimaryGeneratedColumn()
     id: number
@@ -8,5 +9,6 @@ export class Photo {
     @Column()
     url: string
 
+    @ManyToOne(() => User, (user) => user.photos)
     user: User
 }

@@ -8,9 +8,9 @@ export class AppService implements OnModuleInit {
   constructor(private moduleRef: ModuleRef) { }
 
   onModuleInit() {
-    this.service = this.moduleRef.get(CommonService)
+    this.service = this.moduleRef.get(CommonService, { strict: false })
   }
-  
+
   getHello(): string {
     return 'Hello World!'
   }
