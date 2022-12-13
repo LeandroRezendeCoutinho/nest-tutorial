@@ -20,4 +20,12 @@ export class PhotoService {
             await queryRunner.release()
         }
     }
+
+    async updateMany(photos: Photo[]) {
+        await this.dataSource.transaction(async manager => {
+            photos.forEach(async photo => {
+                await manager.update(Photo, { id: photo.id }, photo)
+            })
+        })
+    }
 }
