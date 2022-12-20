@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common'
 import { ContextIdFactory, NestFactory } from '@nestjs/core'
 import {
   FastifyAdapter,
@@ -30,6 +31,7 @@ import { AggregateByTenantContextIdStrategy } from './common/aggregate-by-tenant
       AppModule,
       new FastifyAdapter()
     )
+    app.useGlobalPipes(new ValidationPipe())
     ContextIdFactory.apply(new AggregateByTenantContextIdStrategy())
     await app.listen(3000)
   }

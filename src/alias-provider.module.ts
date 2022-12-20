@@ -1,6 +1,8 @@
 import { Injectable, Module } from "@nestjs/common"
 import { AuthModule } from './auth/auth.module'
 import { ConfigModule } from './config/config.module'
+import { PhotoController } from './photo/photo.controller';
+import { PhotoModule } from './photo/photo.module';
 
 @Injectable()
 class LoggerService {
@@ -14,6 +16,7 @@ const loggerAliasProvider = {
 
 @Module({
     providers: [LoggerService, loggerAliasProvider],
-    imports: [AuthModule, ConfigModule],
+    imports: [AuthModule, ConfigModule, PhotoModule],
+    controllers: [PhotoController],
 })
 export class AliasProviderModule { }

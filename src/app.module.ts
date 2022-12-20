@@ -13,6 +13,7 @@ import { UserModule } from './user/user.module'
 import { ConfigModule } from './config/config.module'
 import { ConfigModuleOptionsFactory } from './config/config.module.options-factory'
 import { LazyExampleModule } from './lazy-example/lazy-example.module'
+import { PhotoModule } from './photo/photo.module'
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { LazyExampleModule } from './lazy-example/lazy-example.module'
     }),
     CatsModule,
     UserModule,
+    PhotoModule,
     LazyExampleModule,
     ConfigModule.registerAsync({
       useClass: ConfigModuleOptionsFactory,
